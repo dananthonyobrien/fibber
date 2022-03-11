@@ -126,18 +126,34 @@ const Contributions = {
 
           console.log(prompt);
 
-        }
+        };
+
+//Set zaniness level of story by adjusting text generation temperature which controls likelihood of next words (increases mean completions are less expected)
+//Should integate into promise chain
+          var temperature = 0.7;
+          function chooseZaniness() {
+          if (data.zaniness == "boring") {
+            temperature = 0.55;
+          }
+          else if (data.zaniess == "normal") {
+            temperature = 0.7;
+          }
+          else {
+            temperature = 0.85;
+          }
+        };
+        
+
+        chooseZaniness();
 
 
-
-        // Send user and api populated prompt to text generation engine of OpenAI to complete story
-
+        // Send user and api populated prompt to text generation engine of OpenAI to complete stories
 
 
         async function getGpt3() {
           const configuration = new Configuration({
-           // apiKey: process.env.OPENAI_API_KEY,
-            apiKey: `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`,
+            apiKey: `${process.env.OPEN_API_KEY}`,
+           // apiKey: `sk-xxxxxxxxxxxxxxxxxxxxxxx`,
 
           });
           const openai = new OpenAIApi(configuration);
@@ -145,7 +161,7 @@ const Contributions = {
           try {
             const response = await openai.createCompletion("text-davinci-001", {
               prompt: prompt,
-              temperature: 0.7,
+              temperature: temperature,
               max_tokens: 500,
               top_p: 1,
               frequency_penalty: 0,

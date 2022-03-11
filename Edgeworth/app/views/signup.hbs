@@ -1,5 +1,6 @@
 <div class="uk-flex uk-flex-center uk-flex-middle uk-grid-small" uk-grid>
-  {{> welcome-menu }}
+    {{> title-card title="fibber" subTitle="the fiction writing app"}}
+  <!--{{> welcome-menu }}-->
 </div>
 
 <div class="uk-container uk-margin">
@@ -8,8 +9,8 @@
       <img width="500" src="images/ink-dots.png">
     </div>
     <div>
-      <div class="uk-card uk-card-default uk-card-body uk-box-shadow-large">
-        <h3 class="uk-card-title uk-text-center">Please enter details below</h3>
+      <div class="uk-card uk-card-default uk-card-body">
+        <h3 style="font-family: chalkboard" "uk-card-title uk-text-center">Please enter details below</h3>
         <form action="/signup" method="POST">
           <div class="uk-margin">
             <div class="uk-inline uk-width-1-1">
@@ -37,7 +38,7 @@
             </div>
           </div>
           <div class="uk-margin">
-            <button class="uk-button uk-button-primary uk-button-large uk-width-1-1">Sign up</button>
+            <button style="font-family: chalkboard" style="color:blueviolet"  class="uk-button uk-button-large uk-width-1-1">Sign up</button>
           </div>
         </form>
         {{> error }}
