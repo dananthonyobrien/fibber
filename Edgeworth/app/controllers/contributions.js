@@ -149,11 +149,10 @@ const Contributions = {
 
         // Send user and api populated prompt to text generation engine of OpenAI to complete stories
 
-
         async function getGpt3() {
           const configuration = new Configuration({
            // apiKey: `${process.env.OPEN_API_KEY}`,
-            apiKey: `NSFWhYqmlhwMmntH9lrIT3BlbkFJinXaRy5T5qVr29PJAowz`,
+            apiKey: `xxxxxxxxxxxxxxxxxxxxxxxxx`,
 
           });
           const openai = new OpenAIApi(configuration);
@@ -190,15 +189,11 @@ const Contributions = {
           genre: sanitizeHtml(data.genre),
           likes: likes,   //added like for like button
           weather: currentWeather,
-          //weather: getWeather().then(),//currentWeather,
-          //weathers: weathers.then(),//getWeather().then(function(result){console.log(result); return "normalReturn";}), //weathersReturn,
           image: imageUrlReturn,       //getImage(),
           story: prompt,//await getGpt3(), 
 
           contributor: user._id,
         });
-
-
 
 
         //Async chain to order and handle promises from weather, image, stem, completion, and database
