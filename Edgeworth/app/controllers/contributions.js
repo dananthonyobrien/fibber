@@ -69,7 +69,8 @@ const Contributions = {
           //console.log(weather.weather[0].description)
           //return currentWeather;
         } catch(err) {
-          console.log(err);
+            console.log(err);
+          }
         };
 
 
@@ -197,6 +198,11 @@ const Contributions = {
           contributor: user._id,
         });
 
+        
+        getWeather();
+        getImage();
+        populateStemParagraph();
+        //new.Contribution.save();
 
         //Async chain to order and handle promises from weather, image, stem, completion, and database
         // async function produceStory() {
