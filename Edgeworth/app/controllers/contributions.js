@@ -57,6 +57,7 @@ const Contributions = {
         const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=`+data.country+`&appid=${process.env.WEATHER_API_KEY}`;
         async function getWeather() {
           let weather = {};
+          try{
           const response = await axios.get(weatherRequest);
           if (response.status == 200) {
             weather = response.data
@@ -67,7 +68,9 @@ const Contributions = {
           console.log(currentWeather);
           //console.log(weather.weather[0].description)
           //return currentWeather;
-        }
+        } catch(err) {
+          console.log(err);
+        };
 
 
         // Get image based on user inputted teddy type from Unsplash to be added to html
@@ -83,7 +86,6 @@ const Contributions = {
           };
 
           await axios(config)
-
             .then(function (response) {
               console.log(JSON.stringify(response.data.urls.regular));
               console.log("Response type:" + response.type);
