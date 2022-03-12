@@ -152,8 +152,8 @@ const Contributions = {
 
         async function getGpt3() {
           const configuration = new Configuration({
-            apiKey: `${process.env.OPEN_API_KEY}`,
-           // apiKey: `sk-xxxxxxxxxxxxxxxxxxxxxxx`,
+           // apiKey: `${process.env.OPEN_API_KEY}`,
+            apiKey: `NSFWhYqmlhwMmntH9lrIT3BlbkFJinXaRy5T5qVr29PJAowz`,
 
           });
           const openai = new OpenAIApi(configuration);
