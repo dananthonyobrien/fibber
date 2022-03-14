@@ -22,7 +22,6 @@ const request = require('request');
 
 const Contributions = {
 
-
   home: {
     handler: async function (request, h) {
       const contributions = await Contribution.find().lean();
@@ -39,9 +38,6 @@ const Contributions = {
     },
   },
   contribute: {
-
-
-
     handler: async function (request, h) {
       try {
         const id = request.auth.credentials.id;
@@ -51,7 +47,9 @@ const Contributions = {
         var currentWeather = "I can't see";
         var prompt = "Hmmm, try scribbling another story."
         var completion = "Hmmm, our story engine has broken down. Try again."
+        var story = "Hmmm, we haven't stuck your story together yet. Try again";
         var imageUrlReturn = "https://images.unsplash.com/photo-1586410074293-91d01ca0db5c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyOTQxMjB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NDMzOTAxODc&ixlib=rb-1.2.1&q=80&w=400";
+
 
         // Get current weather from OpenWeatherAPI to populate story stem paragraph
         const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=`+data.country+`&appid=${process.env.WEATHER_API_KEY}`;
@@ -118,11 +116,11 @@ const Contributions = {
                 \n"No", ` + data.teddyName + ` groaned.
                 \n"Let's have an adventure!" ` + data.name + ` cried.
                 \n"No, we'll get in trouble".
-                \n"What if we go on a ` + data.genre + ` adventure to find ` + data.food + `? ` + data.teddyName + ` loved ` + data.food + `.
+                \n"What if we go on a ` + data.genre + ` adventure to find ` + data.food + `"? ` + data.teddyName + ` loved ` + data.food + `.
                 \n` + data.teddyName + `'s ears twitched. "I'm listening".
-                \n "What is the weather like, ` + data.teddyName + `? asked ` + data.name + `. "
-                \n "` + currentWeather + `", ` + data.teddyName + `said, peering out the window.
-                \n"Perfect! said ` + data.name + ` Let's go!`
+                \n"What is the weather like", ` + data.teddyName + `? asked ` + data.name + `. 
+                \n"` + currentWeather + `", ` + data.teddyName + ` said, peering out the window.
+                \n"Perfect!" said ` + data.name + ` "Let's go!"`
 
           console.log(prompt);
 
@@ -159,7 +157,7 @@ const Contributions = {
 
           try {
             const response = await openai.createCompletion("text-davinci-001", {
-              prompt: prompt,
+              prompt: data.title + 'n\ ' + prompt,
               temperature: temperature,
               max_tokens: 500,
               top_p: 1,
@@ -167,6 +165,7 @@ const Contributions = {
               presence_penalty: 0,
             });
             completion = response.data.choices[0].text; //`${prompt}${response.choices[0].text}`;
+            story = prompt + '\n ' + completion;
             console.log(response);
             console.log(completion);
           } catch (err) {
@@ -175,7 +174,16 @@ const Contributions = {
 
         }
 
-
+//Async chain to order and handle promises from weather, image, stem, completion, and database
+        // async function produceStory() {
+        const weatherAwait = await getWeather(user);
+        console.log(currentWeather);
+        const imageAwait = await getImage(weatherAwait);
+        console.log(imageUrlReturn);
+        const stemAwait = await populateStemParagraph(imageAwait);
+        console.log(prompt);
+        const gpt3Await = await getGpt3(stemAwait);
+        console.log(completion);
 
         //Create contribution made up of story and story elements to be sent to MongoDB
         const newContribution = new Contribution({
@@ -188,24 +196,15 @@ const Contributions = {
           country: sanitizeHtml(data.country),  // sanitize user input
           genre: sanitizeHtml(data.genre),
           likes: likes,   //added like for like button
-          weather: currentWeather,
-          image: imageUrlReturn,       //getImage(),
-          story: prompt,//await getGpt3(), 
+          weather: currentWeather, 
+          image: imageUrlReturn,       
+          story: story,
 
           contributor: user._id,
         });
 
 
-        //Async chain to order and handle promises from weather, image, stem, completion, and database
-        // async function produceStory() {
-        const weatherAwait = await getWeather(user);
-        console.log(currentWeather);
-        const imageAwait = await getImage(weatherAwait);
-        console.log(imageUrlReturn);
-        const stemAwait = await populateStemParagraph(imageAwait);
-        console.log(prompt);
-        const gpt3Await = await getGpt3(stemAwait);
-        console.log(completion);
+        
         await newContribution.save(gpt3Await);
         console.log('All work done');
         return h.redirect("/report");
@@ -214,6 +213,10 @@ const Contributions = {
       } catch (err) {
         return h.view("main", { errors: [{ message: err.message }] });
       }
+
+
+
+
     },
   },
   // Delete method added
