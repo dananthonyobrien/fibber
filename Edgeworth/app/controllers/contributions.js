@@ -85,7 +85,7 @@ const Contributions = {
             .then(function (response) {
               console.log(JSON.stringify(response.data.urls.regular));
               console.log("Response type:" + response.type);
-              imageUrlReturn = JSON.stringify(response.data.urls.regular);
+              imageUrlReturn = response.data.urls.regular;
               console.log(imageUrlReturn);
               // console.log("response.urls.regular:" + JSON.stringify(response.urls.regular));
               console.log("")
@@ -150,7 +150,7 @@ const Contributions = {
         async function getGpt3() {
           const configuration = new Configuration({
            // apiKey: `${process.env.OPEN_API_KEY}`,
-            apiKey: `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`,
+            apiKey: `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`,
 
           });
           const openai = new OpenAIApi(configuration);
@@ -168,6 +168,7 @@ const Contributions = {
             story = prompt + '\n ' + completion;
             console.log(response);
             console.log(completion);
+            console.log(story);
           } catch (err) {
             console.log(err);
           }
@@ -183,7 +184,7 @@ const Contributions = {
         const stemAwait = await populateStemParagraph(imageAwait);
         console.log(prompt);
         const gpt3Await = await getGpt3(stemAwait);
-        console.log(completion);
+        console.log(story);
 
         //Create contribution made up of story and story elements to be sent to MongoDB
         const newContribution = new Contribution({

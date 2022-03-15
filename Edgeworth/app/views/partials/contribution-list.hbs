@@ -1,165 +1,4 @@
-<!-- List of POI contributions -->
-
-<!---  API taking readings from Open Weather App using ajax 
-
-
-
-
-
-
-
---->
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<!--<script>
-  var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://api.openweathermap.org/data/2.5/weather?q=cork&appid=286e86f2a2706bfb9f508eedc061b148&units=metric",
-    "method": "GET"
-  }
-
-  $.ajax(settings).done(function (response) {
-    console.log(response);
-    var weather = response.weather[0].main;
-
-    $("#weather").append(weather);
-
-  });
-</script>-->
-
-
-<!--<script>
-
-const got = require('got');
-const prompt = `2 sentence children's bedtime story: \n`;
-
-(async () => {
-  const url = 'https://api.openai.com/v1/engines/text-davinci-001/completions';
-  const params = {
-    "prompt": prompt,
-    "max_tokens": 160,
-    "temperature": 0.7,
-    "frequency_penalty": 0.5
-  };
-  const headers = {
-    'Authorization':  `Bearer ${process.env.OPENAI_SECRET_KEY}`,
-  };
-
-  try {
-    const response = await got.post(url, { json: params, headers: headers }).json();
-    output = `${prompt}${response.choices[0].text}`;
-    console.log(output);
-  } catch (err) {
-    console.log(err);
-  }
-
-
-  const openAiResponse = document.getElementsByClassName('open-ai-output')[0];
-    //$("#storyImageURL").append(contentImageURL);
-
-    $("#openAiOutput").append(output);
-   // const openAIResponse = document.getElementsByClassName('story-image-url')[0];
-
-</script>
--->
-
-<script>
-
-var form = new FormData();
-form.append("prompt", "The future will be");
-form.append("max_tokens", "5");
-form.append("n", "1");
-form.append("temperature", "1");
-form.append("top_p", "1");
-form.append("stop", "\\n");
-form.append("presence_penalty", "");
-form.append("frequency_penalty", "");
-form.append("engine", "text-davinci-001");
-
-
-var settingsGpt3 = {
-    "async": true,
-    "headers": {
-      "Authorization": "Bearer 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"},
-    "crossDomain": true,
-    "url": "https://api.openai.com/v1/engines/text-davinci-001/completions",
-    "method": "POST",
-    "timeout": 0,
-    "contentType": false,
-    "data": form
-    //"data": YourData,
-    //"success": function(data) {
-    //console.log("success:" + data);
-    //}
-  }
-
-  $.ajax(settingsGpt3).done(function (response) {
-    console.log(response);
-
-    var contentStory = response.choices[0].text;
-    //var contentImageURL = response.urls.regular;
-
-    //var contentImageCredit = response.user.name;
-    //var contentImageDescription = response.description;
-   // var contentImageAltDescription = response.alt_description;
-
-
-    //const contentStory = document.getElementsByClassName('story-image-url')[0];
-    $("#contentStory").append(contentStory);
-    //storyImageURL.setAttribute('src', contentImageURL)
-
-
-
-  
-
-
-  });
-
-
-})();
-
-
-
-
-  </script>
-
-
-<script> 
-
-  var settingsUnsplash = {
-    "async": true,
-    "crossDomain": true,
-    "url": "https://api.unsplash.com/photos/random?client_id=viDjCrfXcegOSN_Jqlt1PaZZDBV6pvw3xPbWyoTTmPY&query=cat",
-    "method": "GET"
-  }
-
-  $.ajax(settingsUnsplash).done(function (response) {
-    console.log(response);
-
-    var contentImage = response.urls.raw;
-    var contentImageURL = response.urls.regular;
-
-    var contentImageCredit = response.user.name;
-    var contentImageDescription = response.description;
-    var contentImageAltDescription = response.alt_description;
-
-
-    const storyImageURL = document.getElementsByClassName('story-image-url')[0];
-    $("#storyImageURL").append(contentImageURL);
-    storyImageURL.setAttribute('src', contentImageURL)
-
-
-
-    $("#storyImage").append(contentImage);
-    $("#storyImageCredit").append(contentImageCredit);
-    $("#storyImageDescription").append(contentImageDescription);
-    $("#storyImageAltDescription").append(contentImageAltDescription);
-
-
-  });
-
-</script>
+<!-- Library page -->
 
 
 <div class=" uk-width-2xlarge uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow">
@@ -179,11 +18,6 @@ var settingsGpt3 = {
         </a>
         <div class="uk-accordion-content">
 
-
-
-          <!--<div class="uk-margin-large uk-card uk-card-default uk-card-body uk-box-shadow">-->
-          <!-- Added extra pair of curly brackets for cross-site scripting test-->
-          <!--<h2>{{title}}</h2>-->
           <!-- Added edit, delete, and like buttons -->
           <a href="/edit-contribution/{{_id}}" uk-icon="pencil"></a><a href="/delete-contribution/{{_id}}"
             uk-icon="trash"><a href="/like-contribution/{{_id}}" uk-icon="star">{{likes}}</a>
@@ -191,52 +25,16 @@ var settingsGpt3 = {
             <p>{{bio}}</p>
             <h4>A {{genre}} story</h4>
             <h4>by {{contributor.firstName}}
-              <!--{{contributor.lastName}}-->
             </h4>
 
-
-            <!--</div>-->
-            <!-- <div class="uk-margin-large uk-card uk-card-default uk-card-body uk-box-shadow">-->
-
-            
-
-         <!--   <p class="uk-text-left">Once upon a time, {{age}}-year-old {{name}} and {{teddyName}} {{teddyType}} were
-              supposed to be asleep in their home in {{country}}.
-              <br>"Psst! Are you awake?" {{name}} asked {{teddyName}}.
-              <br>"No", {{teddyName}} groaned.
-              <br>"Let's have an adventure!" {{name}} cried.
-              <br>"No, we'll get in trouble".
-              <br>"What if we go on an adventure to find {{food}}?" {{teddyName}} loved {{food}}.
-              <br>{{teddyName}}'s ears twitched. "I'm listening".
-              <br>"The moon is made of {{food}}", said {{name}}. "What is the weather like, Co-Pilot {{teddyName}}?"
-              <br> "{{weather}}", {{teddyName}} said, peering out the window.
-              <br>"Good. 3-2-1. Blastoff!". The bed flew out through the window and soared above the house. As they went
-              higher and higher they could see the school and the park, and when they were higher still the sea and the
-              mountains. While they gazed down at the world below, they did not see the moon coming until they crash
-              landed on it.
-              <br>{{teddyName}} landed with his face in the dust and let out a groan. "Oh no {{teddyName}}, are you
-              okay, where are you hurt?" {{teddyName}} looked up and said, "It doesn't taste like {{food}} at all!"
-              <br>"Or well", said {{name}}, "maybe it is Mars that tastes like {{food}}."
-              <br>"But now it is time for sleep", said Daddy, coming in to tuck in {{name}} and {{teddyName}} and to
-              turn off the light.
-            </p>-->
-
-              <!--<p>Output: <span id="contentStory"></span> {{story}} <span id="openAiOutput"><span> <span class="open-ai-output"></p>-->
+            <!-- Generated story based on user inputted information, weather api, stem paragraph, and GPT3 text generator--> 
               <p>{{story}}</p>
 
-
-            <!--<p><img class="story-image-url" width="300" src=""></span></p>-->
-            <p>quotation marks</p>
-            <img class="{{imageUrlReturn}}" width="300" src="">
-            <p>no quotation marks</p>
-            <img class={{imageUrlReturn}} width="300" src="">
-
-
-
+            <!-- Generated image based on user inputted teddy type, taken from Unsplash API -->
+               <img src={{image}} width="400"/>
 
             <h4>The End</h4>
 
-            <!--</div> -->
         </div>
 
   </div>
