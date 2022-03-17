@@ -125,7 +125,7 @@ const Contributions = {
                 \n"` + currentWeather + `", ` + data.teddyName + ` said, peering out the window.
                 \n"Perfect!" said ` + data.name + ` "Let's go!"`
           
-          filter.clean(prompt);
+          prompt = filter.clean(prompt);
           console.log(prompt);
 
         };
@@ -154,7 +154,7 @@ const Contributions = {
         async function getGpt3() {
           const configuration = new Configuration({
            // apiKey: `${process.env.OPEN_API_KEY}`,
-            apiKey: `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`,
+            apiKey: `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`,
 
           });
           const openai = new OpenAIApi(configuration);
@@ -209,19 +209,12 @@ const Contributions = {
         });
 
 
-        
         await newContribution.save(gpt3Await);
         console.log('All work done');
         return h.redirect("/report");
-
-        
       } catch (err) {
         return h.view("main", { errors: [{ message: err.message }] });
       }
-
-
-
-
     },
   },
   // Delete method added
@@ -246,7 +239,6 @@ const Contributions = {
       }
     },
   },
-
 
   // update contribution built with settings update and ICT1 update, but not working
   updateContribution: {
