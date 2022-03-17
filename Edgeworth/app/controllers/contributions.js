@@ -13,6 +13,9 @@ const jsdom = require('jsdom');
 const dom = new jsdom.JSDOM("");
 const jquery = require('jquery')(dom.window);
 var axios = require('axios');
+var Filter = require('bad-words'),
+    filter = new Filter();
+
 
 
 const { Configuration, OpenAIApi } = require("openai");
@@ -121,7 +124,8 @@ const Contributions = {
                 \n"What is the weather like", ` + data.teddyName + `? asked ` + data.name + `. 
                 \n"` + currentWeather + `", ` + data.teddyName + ` said, peering out the window.
                 \n"Perfect!" said ` + data.name + ` "Let's go!"`
-
+          
+          filter.clean(prompt);
           console.log(prompt);
 
         };
