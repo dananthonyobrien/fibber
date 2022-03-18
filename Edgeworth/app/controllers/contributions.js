@@ -14,14 +14,10 @@ const dom = new jsdom.JSDOM("");
 const jquery = require('jquery')(dom.window);
 var axios = require('axios');
 var Filter = require('bad-words'),
-    filter = new Filter();
-
-
-
+  filter = new Filter();
 const { Configuration, OpenAIApi } = require("openai");
-
-
 const request = require('request');
+
 
 const Contributions = {
 
@@ -47,15 +43,15 @@ const Contributions = {
         const user = await User.findById(id);
         const data = request.payload;
 
-        var currentWeather = "I can't see";
+        var currentWeather = "I can't see, ";
         var prompt = "Hmmm, try scribbling another story."
         var completion = "Hmmm, our story engine has broken down. Try again."
-        var story = "Hmmm, we haven't stuck your story together yet. Try again";
+        var story = "Hmmm, we haven't stuck your story together yet. Try again.";
         var imageUrlReturn = "https://images.unsplash.com/photo-1586410074293-91d01ca0db5c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyOTQxMjB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NDMzOTAxODc&ixlib=rb-1.2.1&q=80&w=400";
-
+        var fact = "It takes eight and a half minutes for light to get from the sun to earth, ";
 
         // Get current weather from OpenWeatherAPI to populate story stem paragraph
-        const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=`+data.country+`&appid=${process.env.WEATHER_API_KEY}`;
+        const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=` + data.country + `&appid=${process.env.WEATHER_API_KEY}`;
         async function getWeather() {
           let weather = {};
           const response = await axios.get(weatherRequest);
@@ -107,6 +103,38 @@ const Contributions = {
         }
 
 
+        //Random fact generator
+
+        async function getFact() {
+
+          var config = {
+            method: 'get',
+            url: `https://api.api-ninjas.com/v1/facts?limit=1`,
+            headers: { 
+              'X-Api-Key': `${process.env.FACT_API_KEY}`
+            }
+          };
+
+          await axios(config)
+
+            .then(function (response) {
+              console.log(response)
+              console.log (response. body)
+          var parseBody = JSON.parse(response.body);
+          fact = parseBody[0]['fact']
+          console.log(fact)
+
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+
+
+          return fact;
+
+        };
+
+
 
         //Story stem paragraph populated with user inputted data and weather api data
         async function populateStemParagraph() {
@@ -123,17 +151,19 @@ const Contributions = {
                 \n` + data.teddyName + `'s ears twitched. "I'm listening".
                 \n"What is the weather like", ` + data.teddyName + `? asked ` + data.name + `. 
                 \n"` + currentWeather + `", ` + data.teddyName + ` said, peering out the window.
-                \n"Perfect!" said ` + data.name + ` "Let's go!"`
-          
+                \n"Perfect!" said ` + data.name + ` "Let's go!" 
+                \n"Did you know" , ` + fact +  ` asked ` + data.teddyName + ` as they climbed out the window.
+                \n"Wow!" said ` + data.name  
+
           prompt = filter.clean(prompt);
           console.log(prompt);
 
         };
 
-//Set zaniness level of story by adjusting text generation temperature which controls likelihood of next words (increases mean completions are less expected)
-//Should integate into promise chain
-          var temperature = 0.7;
-          function chooseZaniness() {
+        //Set zaniness level of story by adjusting text generation temperature which controls likelihood of next words (increases mean completions are less expected)
+        //Should integate into promise chain
+        var temperature = 0.7;
+        function chooseZaniness() {
           if (data.zaniness == "boring") {
             temperature = 0.55;
           }
@@ -144,7 +174,7 @@ const Contributions = {
             temperature = 0.85;
           }
         };
-        
+
 
         chooseZaniness();
 
@@ -153,8 +183,8 @@ const Contributions = {
 
         async function getGpt3() {
           const configuration = new Configuration({
-           // apiKey: `${process.env.OPEN_API_KEY}`,
-            apiKey: `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`,
+            // apiKey: `${process.env.OPEN_API_KEY}`,
+            apiKey: `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`,
 
           });
           const openai = new OpenAIApi(configuration);
@@ -179,13 +209,15 @@ const Contributions = {
 
         }
 
-//Async chain to order and handle promises from weather, image, stem, completion, and database
+        //Async chain to order and handle promises from weather, image, stem, completion, and database
         // async function produceStory() {
         const weatherAwait = await getWeather(user);
         console.log(currentWeather);
         const imageAwait = await getImage(weatherAwait);
         console.log(imageUrlReturn);
-        const stemAwait = await populateStemParagraph(imageAwait);
+        const factAwait = await getFact(imageAwait);
+        console.log(fact)
+        const stemAwait = await populateStemParagraph(factAwait);
         console.log(prompt);
         const gpt3Await = await getGpt3(stemAwait);
         console.log(story);
@@ -201,8 +233,8 @@ const Contributions = {
           country: sanitizeHtml(data.country),  // sanitize user input
           genre: sanitizeHtml(data.genre),
           likes: likes,   //added like for like button
-          weather: currentWeather, 
-          image: imageUrlReturn,       
+          weather: currentWeather,
+          image: imageUrlReturn,
           story: story,
 
           contributor: user._id,
