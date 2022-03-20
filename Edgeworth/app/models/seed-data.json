@@ -25,20 +25,6 @@
       "email": "jm@gmail.com",
       "password": "Body4soul454"
     }
-  },
-  "contributions": {
-    "_model": "Contribution",
-    "one": {
-      "title": "Cats in Space",
-      "name": "Jamie",
-      "age": "4",
-      "teddyName": "Henry",
-      "teddyType": "Hippo",
-      "food": "cheese",
-      "country": "Wexford",
-      "genre": "Space Adventure",
-      "likes": 5,
-      "contributor": "->users.frank"
-    }
   }
+  
 }

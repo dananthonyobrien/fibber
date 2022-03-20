@@ -155,8 +155,8 @@ const Contributions = {
                 \n` + data.teddyName + `'s ears twitched. "I'm listening".
                 \n"What is the weather like", ` + data.teddyName + `? asked ` + data.name + `. 
                 \n"` + currentWeather + `", ` + data.teddyName + ` said, peering out the window.
-                \n"Perfect!" said ` + data.name + `
-                \n"Did you know , ` + fact +  `" asked ` + data.teddyName + ` as they climbed out the window.
+                \n"Perfect!" said ` + data.name + `.
+                \n"Did you know , ` + fact +  `", asked ` + data.teddyName + ` as they climbed out the window.
                 \n"No time for chit chat!" said ` + data.name  + `. "Let's go!"`
 
           prompt = filter.clean(prompt);
@@ -188,13 +188,13 @@ const Contributions = {
         async function getGpt3() {
           const configuration = new Configuration({
             // apiKey: `${process.env.OPEN_API_KEY}`,
-            apiKey: `xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`,
+            apiKey: `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`,
 
           });
           const openai = new OpenAIApi(configuration);
 
           try {
-            const response = await openai.createCompletion("text-davinci-001", {
+            const response = await openai.createCompletion("text-davinci-002", {
               prompt: data.title + 'n\ ' + prompt,
               temperature: temperature,
               max_tokens: 1000,
