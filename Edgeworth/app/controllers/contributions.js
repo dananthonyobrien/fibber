@@ -119,10 +119,14 @@ const Contributions = {
 
             .then(function (response) {
               console.log(response)
-              console.log (response. body)
-          var parseBody = JSON.parse(response.body);
-          fact = parseBody[0]['fact']
-          console.log(fact)
+              console.log(response.data)
+              console.log(response.data[0]['fact'])
+
+          //var parseBody = JSON.parse(response.body);
+          //fact = parseBody[0]['fact']
+          //fact = response.body[0]['fact'];
+          fact =response.data[0]['fact'];
+          console.log(fact);
 
             })
             .catch(function (error) {
@@ -151,9 +155,9 @@ const Contributions = {
                 \n` + data.teddyName + `'s ears twitched. "I'm listening".
                 \n"What is the weather like", ` + data.teddyName + `? asked ` + data.name + `. 
                 \n"` + currentWeather + `", ` + data.teddyName + ` said, peering out the window.
-                \n"Perfect!" said ` + data.name + ` "Let's go!" 
-                \n"Did you know" , ` + fact +  ` asked ` + data.teddyName + ` as they climbed out the window.
-                \n"Wow!" said ` + data.name  
+                \n"Perfect!" said ` + data.name + `
+                \n"Did you know , ` + fact +  `" asked ` + data.teddyName + ` as they climbed out the window.
+                \n"No time for chit chat!" said ` + data.name  + `. "Let's go!"`
 
           prompt = filter.clean(prompt);
           console.log(prompt);
@@ -184,7 +188,7 @@ const Contributions = {
         async function getGpt3() {
           const configuration = new Configuration({
             // apiKey: `${process.env.OPEN_API_KEY}`,
-            apiKey: `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`,
+            apiKey: `xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`,
 
           });
           const openai = new OpenAIApi(configuration);
@@ -193,7 +197,7 @@ const Contributions = {
             const response = await openai.createCompletion("text-davinci-001", {
               prompt: data.title + 'n\ ' + prompt,
               temperature: temperature,
-              max_tokens: 500,
+              max_tokens: 1000,
               top_p: 1,
               frequency_penalty: 0,
               presence_penalty: 0,
