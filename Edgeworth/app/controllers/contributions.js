@@ -341,7 +341,7 @@ async function getAI21Fact() {
         async function getGpt3() {
           const configuration = new Configuration({
             // apiKey: `${process.env.OPEN_API_KEY}`,
-            apiKey: `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`,
+            apiKey: `sk-xxxxxx`,
 
           });
           const openai = new OpenAIApi(configuration);
