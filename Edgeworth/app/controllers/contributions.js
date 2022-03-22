@@ -19,6 +19,83 @@ const { Configuration, OpenAIApi } = require("openai");
 const request = require('request');
 
 
+//Random fact generator version 2, from OpenAI rival large language model AI21 Lab
+
+
+async function getAI21Fact() {
+  
+  var config = {
+    method: 'POST',
+    url: `https://api.ai21.com/studio/v1/j1-jumbo/complete`,
+    headers: { 
+    "Authorization": `Bearer ${process.env.AI21_API_KEY}`,
+    "Content-Type": "application/json"
+    },
+    body: JSON.stringify(
+      {"prompt": "One sentence fact about history:",
+      "numResults": 1,
+      "maxTokens": 20,
+      "temperature": 0.5,
+      "topKReturn": 0,
+      "topP":1,
+      "countPenalty": {
+        "scale": 0,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "frequencyPenalty": {
+        "scale": 0,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "presencePenalty": {
+        "scale": 1.73,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "stopSequences":["."]
+    }
+   )
+    ,
+  };
+
+
+  await axios(config)
+
+    .then(function (response) {
+      console.log(response)
+      //console.log(response.data)
+      //console.log(response.data[0]['fact'])
+
+  //var parseBody = JSON.parse(response.body);
+  //fact = parseBody[0]['fact']
+  //fact = response.body[0]['fact'];
+  //fact=response.data[0]['fact'];
+  //console.log(fact);
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+
+  //return fact;
+
+}; 
+getAI21Fact();
+
+
+
+
 const Contributions = {
 
   home: {
@@ -103,9 +180,9 @@ const Contributions = {
         }
 
 
-        //Random fact generator
+        //Random Ninja API fact generator
 
-        async function getFact() {
+    /*    async function getFact() {
 
           var config = {
             method: 'get',
@@ -137,6 +214,82 @@ const Contributions = {
           return fact;
 
         };
+
+*/
+
+
+//Random fact generator version 2, from OpenAI rival large language model AI21 Lab
+
+
+async function getAI21Fact() {
+  var config = {
+    method: 'POST',
+    url: `https://api.ai21.com/studio/v1/j1-jumbo/complete`,
+    headers: { 
+    "Authorization": `Bearer ${process.env.AI21_API_KEY}`,
+    "Content-Type": "application/json"
+    },
+    body: //JSON.stringify({
+      {"prompt": "One sentence fact about history:",
+      "numResults": 1,
+      "maxTokens": 20,
+      "temperature": 0.5,
+      "topKReturn": 0,
+      "topP":1,
+      "countPenalty": {
+        "scale": 0,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "frequencyPenalty": {
+        "scale": 0,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "presencePenalty": {
+        "scale": 1.73,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "stopSequences":["."]
+    }
+   // )
+    ,
+  };
+
+  await axios(config)
+
+    .then(function (response) {
+      console.log(response)
+      //console.log(response.data)
+      //console.log(response.data[0]['fact'])
+
+  //var parseBody = JSON.parse(response.body);
+  //fact = parseBody[0]['fact']
+  //fact = response.body[0]['fact'];
+  //fact=response.data[0]['fact'];
+  //console.log(fact);
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+
+  //return fact;
+
+}; 
+
+
 
 
 
