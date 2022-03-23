@@ -19,6 +19,85 @@ const { Configuration, OpenAIApi } = require("openai");
 const request = require('request');
 
 
+//Random fact generator version 2, from OpenAI rival large language model AI21 Lab
+
+/*
+async function getAI21Fact() {
+  
+  var config = {
+    method: "post",
+    url: "https://api.ai21.com/studio/v1/j1-jumbo/complete",
+    headers: { 
+    "Authorization": `Bearer ${process.env.AI21_API_KEY}`,
+    "Content-Type": "application/json"
+    },
+    data: JSON.stringify(
+      {"prompt": "One sentence fact about history:",
+      "numResults": 1,
+      "maxTokens": 20,
+      "temperature": 0.5,
+      "topKReturn": 0,
+      "topP":1,
+      "countPenalty": {
+        "scale": 0,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "frequencyPenalty": {
+        "scale": 0,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "presencePenalty": {
+        "scale": 1.73,
+        "applyToNumbers": false,
+        "applyToPunctuations": false,
+        "applyToStopwords": false,
+        "applyToWhitespaces": false,
+        "applyToEmojis": false
+      },
+      "stopSequences":["."]
+    }
+  )
+    ,
+  };
+
+
+  await axios(config)
+
+    .then(function (response) {
+      console.log(response)
+      console.log(response.data.completions)
+      //console.log(response.data)
+      //console.log(response.data[0]['fact'])
+
+  //var parseBody = JSON.parse(response.body);
+  //fact = parseBody[0]['fact']
+  //fact = response.body[0]['fact'];
+  //fact=response.data[0]['fact'];
+  //console.log(fact);
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+
+  //return fact;
+
+}; 
+getAI21Fact();
+
+
+*/
+
+
 const Contributions = {
 
   home: {
@@ -49,6 +128,7 @@ const Contributions = {
         var story = "Hmmm, we haven't stuck your story together yet. Try again.";
         var imageUrlReturn = "https://images.unsplash.com/photo-1586410074293-91d01ca0db5c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyOTQxMjB8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NDMzOTAxODc&ixlib=rb-1.2.1&q=80&w=400";
         var fact = "It takes eight and a half minutes for light to get from the sun to earth, ";
+        var completionFact = "The earth revolves at 900 miles an hour.";
 
         // Get current weather from OpenWeatherAPI to populate story stem paragraph
         const weatherRequest = `http://api.openweathermap.org/data/2.5/weather?q=` + data.country + `&appid=${process.env.WEATHER_API_KEY}`;
@@ -103,30 +183,91 @@ const Contributions = {
         }
 
 
-        //Random fact generator
 
-        async function getFact() {
+      //Tidy user inputted story type to random fact topic
+        var factTopic = "science";
+        function topicType() {
+          if (data.genre == "jungle") {
+            factTopic = "the jungle";
+          }
+          else if (data.genre == "sea") {
+            factTopic = "the sea";
+          }
+          else if (data.genre == "fairy") {
+            factTopic = "magical fairies";
+          }
+          else if (data.genre == "space") {
+            factTopic = "space";
+          }
+          else if (data.genre == "time machine") {
+            factTopic = "history";
+          }
+          else {
+            factTopic = "farms";
+          }
+        };
+
+
+        topicType();
+
+
+        //Random fact generator version 2, from OpenAI rival large language model AI21 Lab
+
+
+        async function getAI21Fact() {
 
           var config = {
-            method: 'get',
-            url: `https://api.api-ninjas.com/v1/facts?limit=1`,
-            headers: { 
-              'X-Api-Key': `${process.env.FACT_API_KEY}`
-            }
+            method: "post",
+            url: "https://api.ai21.com/studio/v1/j1-jumbo/complete",
+            headers: {
+              "Authorization": `Bearer ${process.env.AI21_API_KEY}`,
+              "Content-Type": "application/json"
+            },
+            data: JSON.stringify(
+              {
+                "prompt": `One sentence fact about ` + factTopic + `:`,
+                "numResults": 1,
+                "maxTokens": 20,
+                "temperature": 0.5,
+                "topKReturn": 0,
+                "topP": 1,
+                "countPenalty": {
+                  "scale": 0,
+                  "applyToNumbers": false,
+                  "applyToPunctuations": false,
+                  "applyToStopwords": false,
+                  "applyToWhitespaces": false,
+                  "applyToEmojis": false
+                },
+                "frequencyPenalty": {
+                  "scale": 0,
+                  "applyToNumbers": false,
+                  "applyToPunctuations": false,
+                  "applyToStopwords": false,
+                  "applyToWhitespaces": false,
+                  "applyToEmojis": false
+                },
+                "presencePenalty": {
+                  "scale": 1.73,
+                  "applyToNumbers": false,
+                  "applyToPunctuations": false,
+                  "applyToStopwords": false,
+                  "applyToWhitespaces": false,
+                  "applyToEmojis": false
+                },
+                "stopSequences": ["."]
+              }
+            ),
           };
 
           await axios(config)
 
             .then(function (response) {
               console.log(response)
-              console.log(response.data)
-              console.log(response.data[0]['fact'])
+              console.log("response.data.completions[0].data.text: " + response.data.completions[0].data.text);
 
-          //var parseBody = JSON.parse(response.body);
-          //fact = parseBody[0]['fact']
-          //fact = response.body[0]['fact'];
-          fact =response.data[0]['fact'];
-          console.log(fact);
+
+              completionFact = response.data.completions[0].data.text;
 
             })
             .catch(function (error) {
@@ -134,7 +275,7 @@ const Contributions = {
             });
 
 
-          return fact;
+          return completionFact;
 
         };
 
@@ -155,9 +296,9 @@ const Contributions = {
                 \n` + data.teddyName + `'s ears twitched. "I'm listening".
                 \n"What is the weather like", ` + data.teddyName + `? asked ` + data.name + `. 
                 \n"` + currentWeather + `", ` + data.teddyName + ` said, peering out the window.
-                \n"Perfect!" said ` + data.name + `
-                \n"Did you know , ` + fact +  `" asked ` + data.teddyName + ` as they climbed out the window.
-                \n"No time for chit chat!" said ` + data.name  + `. "Let's go!"`
+                \n"Perfect!" said ` + data.name + `.
+                \n"Did you know, ` + data.teddyName + ` said as they climbed out the window, "` + completionFact + `..."?
+                \n"No time for chit chat!" said ` + data.name + `. "Let's go!"`
 
           prompt = filter.clean(prompt);
           console.log(prompt);
@@ -171,7 +312,7 @@ const Contributions = {
           if (data.zaniness == "boring") {
             temperature = 0.55;
           }
-          else if (data.zaniess == "normal") {
+          else if (data.zaniness == "normal") {
             temperature = 0.7;
           }
           else {
@@ -187,18 +328,18 @@ const Contributions = {
 
         async function getGpt3() {
           const configuration = new Configuration({
-            // apiKey: `${process.env.OPEN_API_KEY}`,
-            apiKey: `xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`,
+            apiKey: `${process.env.OPENAI_SECRET_KEY}`,
 
           });
           const openai = new OpenAIApi(configuration);
 
           try {
-            const response = await openai.createCompletion("text-davinci-001", {
+            const response = await openai.createCompletion("text-davinci-002", {
               prompt: data.title + 'n\ ' + prompt,
               temperature: temperature,
               max_tokens: 1000,
               top_p: 1,
+              best_of: 3,
               frequency_penalty: 0,
               presence_penalty: 0,
             });
@@ -219,8 +360,8 @@ const Contributions = {
         console.log(currentWeather);
         const imageAwait = await getImage(weatherAwait);
         console.log(imageUrlReturn);
-        const factAwait = await getFact(imageAwait);
-        console.log(fact)
+        const factAwait = await getAI21Fact(imageAwait);
+        console.log(completionFact)
         const stemAwait = await populateStemParagraph(factAwait);
         console.log(prompt);
         const gpt3Await = await getGpt3(stemAwait);
