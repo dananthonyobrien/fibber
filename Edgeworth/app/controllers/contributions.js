@@ -293,8 +293,8 @@ const Contributions = {
                 ` + data.teddyName + `'s ears twitched. "I'm listening".
                 "What is the weather like, ` + data.teddyName + `"? asked ` + data.name + `. 
                 "` + currentWeather + `", ` + data.teddyName + ` said, peering out the window.
-                "Perfect!" said ` + data.name + `.
-                "Did you know, ` + data.teddyName + ` said as they climbed out the window, "` + completionFact + `..."?
+                "Perfect!" said ` + data.name + `, pulling on a ` + data.colour + ` ` + data.clothes + `.
+                "Did you know", ` + data.teddyName + ` said as they climbed out the window, "` + completionFact + `..."?
                 "No time for chit chat!" said ` + data.name + `. "Let's go!"`
 
           prompt = filter.clean(prompt);
