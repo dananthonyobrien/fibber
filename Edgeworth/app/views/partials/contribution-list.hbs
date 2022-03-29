@@ -14,7 +14,13 @@
     <ul uk-accordion="multiple: true">
       <li class="uk-open">
         <a class="uk-accordion-title" href="#">
-          <h2> {{title}} </h2>
+
+ <script>
+            var textColors = ['Red', 'Blue', 'Yellow', 'Green', 'Orange'];
+var textColor = textColors[Math.floor(Math.random()*things.length)];
+        </script>
+
+          <h2 style="color:{{textColor}}"> {{title}} </h2>
         </a>
         <div class="uk-accordion-content">
 
