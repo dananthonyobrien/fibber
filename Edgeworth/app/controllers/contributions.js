@@ -13,7 +13,7 @@ const jquery = require('jquery')(dom.window);
 var axios = require('axios');
 var Filter = require('bad-words'), // Bad word filter to keep user inputted data clean
 filter = new Filter();
-filter.addWords('burn', 'apocalypse', 'bite', 'murder', 'death', 'kill'); // Custom words added to clean reponse from text generator
+filter.addWords('burn', 'apocalypse', 'bite', 'murder', 'death', 'kill', 'pain', 'horror', 'blood'); // Custom words added to clean reponse from text generator
 const { Configuration, OpenAIApi } = require("openai");
 const request = require('request');
 
