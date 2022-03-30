@@ -6,10 +6,10 @@
       data-src="images/line-paper.png" uk-img>
 
 
-      <form class="uk-form-stacked" action="/contribute" method="POST">
+      <form class="uk-form-stacked" style="font-family:chalkboard" action="/contribute" method="POST">
         <div>
           <legend class="uk-legend">
-            <h2><i>Scribbler </i> </h2>
+            <h2 style="font-family:chalkboard" ><i>Scribbler </i> </h2>
           </legend>
           <div class="uk-margin">
             <label class="uk-form-label" for="form-stacked-text" uk-tooltip="Give your story a name!"><i>Story
@@ -19,7 +19,7 @@
                 placeholder="The Magic Pineapple">
             </div>
           </div>
-          <div class="uk-margin">
+          <div class="uk-margin" style="font-family:chalkboard" >
             <label class="uk-form-label" for="form-stacked-text"
               uk-tooltip="Give your hero a name, Mandy, Andy, anything really, even your own name!"><i>Hero/ine name</i>
             </label>
@@ -34,6 +34,55 @@
               <input class="uk-input" id="form-stacked-text" type="string" name="age" placeholder="five">
             </div>
           </div>
+
+
+
+        <div class="uk-margin">
+
+           <div class="uk-width-1-1@s">
+            <label class="uk-form-label" for="form-stacked-text"
+              uk-tooltip="Choose some clothes for your hero/ine!"><i>Clothes</i></label>
+            <div class="uk-form-controls">
+              <select class="uk-select" id="form-stacked-select" type="string" name="clothes" placeholder="hat"
+                readonly="true">
+                <option>hat</option>
+                <option>scarf</option>
+                <option>jumper</option>
+                <option>t-shirt</option>
+                <option>hoodie</option>
+                <option>jacket</option>
+                <option>bandana</option>
+                <option>tracksuit</option>
+
+              </select>
+
+            </div>
+
+            </div>
+
+
+
+            <div class="uk-width-1-1@s">
+            <label class="uk-form-label" for="form-stacked-text"
+              uk-tooltip="What colour clothes?"><i>Colour</i></label>
+            <div class="uk-form-controls">
+              <select class="uk-select" id="form-stacked-select" type="string" name="colour" placeholder="blue"
+                readonly="true">
+                <option>red</option>
+                <option>green</option>
+                <option>blue</option>
+                <option>purple</option>
+                <option>pink</option>
+                <option>orange</option>
+                <option>grey</option>
+                <option>yellow</option>
+              </select>
+            </div>
+
+            </div>
+
+          </div>
+
           <div class="uk-margin">
             <label class="uk-form-label" for="form-stacked-text"
               uk-tooltip="Pick a name for the hero/ine's teddy sidekick!"><i>Teddy name</i></label>
@@ -117,11 +166,12 @@
         <div class="uk-card uk-card-body uk-animation-slide-right">
 
 
-          <h3>Welcome to Fibber! I'm Ollie the Owl and I'll guide you through making your very own story! This is the
+          <h3 style="font-family:chalkboard">Welcome to Fibber! I'm Ollie the Owl and I'll guide you through making your very own story! This is the
             Scribbler page. Add your story ideas here then click Scribble! to create your story.</h3>
-          <img width="data-width" src="images/fibber-owl-eyes-centre.png">
+          <img src="images/fibber-owl-eyes-centre.png">
         </div>
 
+<!--width="data-width"-->
 
       </div>
 

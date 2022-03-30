@@ -7,95 +7,16 @@ const { logger } = require("handlebars");
 const Joi = require("@hapi/joi");
 const Boom = require("@hapi/boom");
 var likes = 0;
-//var imageUrl = "No image"
-//var weathers = "Not working";
 const jsdom = require('jsdom');
 const dom = new jsdom.JSDOM("");
 const jquery = require('jquery')(dom.window);
 var axios = require('axios');
-var Filter = require('bad-words'),
-  filter = new Filter();
+var Filter = require('bad-words'), // Bad word filter to keep user inputted data clean
+filter = new Filter();
+filter.addWords('burn', 'apocalypse', 'bite', 'murder', 'death', 'kill', 'pain', 'horror', 'blood', 'slave'); // Custom words added to clean reponse from text generator
 const { Configuration, OpenAIApi } = require("openai");
 const request = require('request');
 
-
-//Random fact generator version 2, from OpenAI rival large language model AI21 Lab
-
-/*
-async function getAI21Fact() {
-  
-  var config = {
-    method: "post",
-    url: "https://api.ai21.com/studio/v1/j1-jumbo/complete",
-    headers: { 
-    "Authorization": `Bearer ${process.env.AI21_API_KEY}`,
-    "Content-Type": "application/json"
-    },
-    data: JSON.stringify(
-      {"prompt": "One sentence fact about history:",
-      "numResults": 1,
-      "maxTokens": 20,
-      "temperature": 0.5,
-      "topKReturn": 0,
-      "topP":1,
-      "countPenalty": {
-        "scale": 0,
-        "applyToNumbers": false,
-        "applyToPunctuations": false,
-        "applyToStopwords": false,
-        "applyToWhitespaces": false,
-        "applyToEmojis": false
-      },
-      "frequencyPenalty": {
-        "scale": 0,
-        "applyToNumbers": false,
-        "applyToPunctuations": false,
-        "applyToStopwords": false,
-        "applyToWhitespaces": false,
-        "applyToEmojis": false
-      },
-      "presencePenalty": {
-        "scale": 1.73,
-        "applyToNumbers": false,
-        "applyToPunctuations": false,
-        "applyToStopwords": false,
-        "applyToWhitespaces": false,
-        "applyToEmojis": false
-      },
-      "stopSequences":["."]
-    }
-  )
-    ,
-  };
-
-
-  await axios(config)
-
-    .then(function (response) {
-      console.log(response)
-      console.log(response.data.completions)
-      //console.log(response.data)
-      //console.log(response.data[0]['fact'])
-
-  //var parseBody = JSON.parse(response.body);
-  //fact = parseBody[0]['fact']
-  //fact = response.body[0]['fact'];
-  //fact=response.data[0]['fact'];
-  //console.log(fact);
-
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-
-
-  //return fact;
-
-}; 
-getAI21Fact();
-
-
-*/
 
 
 const Contributions = {
@@ -194,7 +115,7 @@ const Contributions = {
             factTopic = "the sea";
           }
           else if (data.genre == "fairy") {
-            factTopic = "magical fairies";
+            factTopic = "fairy tales";
           }
           else if (data.genre == "space") {
             factTopic = "space";
@@ -225,7 +146,7 @@ const Contributions = {
             },
             data: JSON.stringify(
               {
-                "prompt": `One sentence fact about ` + factTopic + `:`,
+                "prompt": `One sentence child-friendly fact about ` + factTopic + `:`,
                 "numResults": 1,
                 "maxTokens": 20,
                 "temperature": 0.5,
@@ -279,26 +200,21 @@ const Contributions = {
 
         };
 
-
-
         //Story stem paragraph populated with user inputted data and weather api data
         async function populateStemParagraph() {
 
-          prompt = `
-
-          Once upon a time, ` + data.age + `-year-old ` + data.name + ` and ` + data.teddyName + ` ` + data.teddyType + ` were
-                supposed to be asleep in their home in ` + data.country + `. 
-                \n"Psst! Are you awake?" ` + data.name + ` asked ` + data.teddyName + `.
-                \n"No", ` + data.teddyName + ` groaned.
-                \n"Let's have an adventure!" ` + data.name + ` cried.
-                \n"No, we'll get in trouble".
-                \n"What if we go on a ` + data.genre + ` adventure to find ` + data.food + `"? ` + data.teddyName + ` loved ` + data.food + `.
-                \n` + data.teddyName + `'s ears twitched. "I'm listening".
-                \n"What is the weather like", ` + data.teddyName + `? asked ` + data.name + `. 
-                \n"` + currentWeather + `", ` + data.teddyName + ` said, peering out the window.
-                \n"Perfect!" said ` + data.name + `.
-                \n"Did you know, ` + data.teddyName + ` said as they climbed out the window, "` + completionFact + `..."?
-                \n"No time for chit chat!" said ` + data.name + `. "Let's go!"`
+          prompt = `Once upon a time, ` + data.age + `-year-old ` + data.name + ` and ` + data.teddyName + ` ` + data.teddyType + ` were supposed to be asleep in their home in ` + data.country + `. 
+                "Psst! Are you awake?" ` + data.name + ` asked ` + data.teddyName + `.
+                "No", ` + data.teddyName + ` groaned.
+                "Let's have an adventure!" ` + data.name + ` cried.
+                "No, we'll get in trouble".
+                "What if we go on a ` + data.genre + ` adventure to find ` + data.food + `"? ` + data.teddyName + ` loved ` + data.food + `.
+                ` + data.teddyName + `'s ears twitched. "I'm listening".
+                "What is the weather like, ` + data.teddyName + `"? asked ` + data.name + `. 
+                "` + currentWeather + `", ` + data.teddyName + ` said, peering out the window.
+                "Perfect!" said ` + data.name + `, pulling on a ` + data.colour + ` ` + data.clothes + `.
+                "Did you know", ` + data.teddyName + ` said as they climbed out the window, "` + completionFact + `..."?
+                "No time for chit chat!" said ` + data.name + `. "Let's go!"`
 
           prompt = filter.clean(prompt);
           console.log(prompt);
@@ -320,7 +236,6 @@ const Contributions = {
           }
         };
 
-
         chooseZaniness();
 
 
@@ -339,12 +254,13 @@ const Contributions = {
               temperature: temperature,
               max_tokens: 1000,
               top_p: 1,
-              best_of: 3,
+              best_of: 6,
               frequency_penalty: 0,
               presence_penalty: 0,
             });
-            completion = response.data.choices[0].text; //`${prompt}${response.choices[0].text}`;
-            story = prompt + '\n ' + completion;
+            completion = response.data.choices[0].text; 
+            story = (prompt + '\n ' + completion).replace(/(?:\r\n|\r|\n)/g, '<br/>'); // replace JS readable line breaks \n with HTML readable <br>
+            story = filter.clean(story);
             console.log(response);
             console.log(completion);
             console.log(story);
@@ -353,6 +269,7 @@ const Contributions = {
           }
 
         }
+
 
         //Async chain to order and handle promises from weather, image, stem, completion, and database
         // async function produceStory() {
@@ -366,6 +283,8 @@ const Contributions = {
         console.log(prompt);
         const gpt3Await = await getGpt3(stemAwait);
         console.log(story);
+
+
 
         //Create contribution made up of story and story elements to be sent to MongoDB
         const newContribution = new Contribution({
@@ -381,7 +300,6 @@ const Contributions = {
           weather: currentWeather,
           image: imageUrlReturn,
           story: story,
-
           contributor: user._id,
         });
 
