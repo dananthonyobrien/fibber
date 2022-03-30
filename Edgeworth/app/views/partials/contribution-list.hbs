@@ -19,13 +19,16 @@
             var textColors = ['Red', 'Blue', 'Yellow', 'Green', 'Orange'];
             function findColor() {
             var textColor = textColors[Math.floor(Math.random() * textColors.length)];
-            return textColor;            
+            //return textColor;            
             console.log(textColor);
+            $("#textColor").append(textColor);
             }
             findColor();
           </script> 
 
-          <h2 style="font-family:chalkboard" style="color:{{textColor}}"> {{title}} </h2>
+   
+
+          <h2 style="font-family:chalkboard" style="color:<span class="textColor"></span"><p class="textColor"></p> {{title}} </h2>
         </a>
         <div class="uk-accordion-content">
 
