@@ -3,7 +3,25 @@
 
 <div class=" uk-width-2xlarge uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow">
 
+  <!-- preloader -->
+  <div id="preloader" class="uk-overlay-primary uk-position-cover">
+    <div class="uk-position-center">
+      <span uk-spinner="ratio: 2"></span>
+    </div>
+  </div>
 
+  <script>
+    var textColors = ['Red', 'Blue', 'Yellow', 'Green', 'Orange'];
+    function findColor() {
+      var textColor = textColors[Math.floor(Math.random() * textColors.length)];
+      //return textColor;            
+      console.log(textColor);
+      $("#textColor").append(textColor);
+    }
+    findColor();
+    $("#color").append(textColor);
+
+  </script>
 
   {{#each contributions}}
 
@@ -15,20 +33,10 @@
       <li class="uk-open">
         <a class="uk-accordion-title" href="#">
 
-          <script>
-            var textColors = ['Red', 'Blue', 'Yellow', 'Green', 'Orange'];
-            function findColor() {
-            var textColor = textColors[Math.floor(Math.random() * textColors.length)];
-            //return textColor;            
-            console.log(textColor);
-            $("#textColor").append(textColor);
-            }
-            findColor();
-          </script> 
 
-   
 
-          <h2 style="font-family:chalkboard" style="color:<span class="textColor"></span"><p class="textColor"></p> {{title}} </h2>
+
+          <h2 style="color:{{colour}}"> {{title}} </h2>
         </a>
         <div class="uk-accordion-content">
 
@@ -50,7 +58,7 @@
 
             <h4 style="font-family:chalkboard">The End</h4>
 
-<!--
+            <!--
              Sharingbutton Facebook 
             <a class="resp-sharing-button__link"
               href="https://facebook.com/sharer/sharer.php?u=http%3A%2F%2Fsharingbuttons.io" target="_blank"
