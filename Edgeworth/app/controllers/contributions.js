@@ -13,7 +13,7 @@ const jquery = require('jquery')(dom.window);
 var axios = require('axios');
 var Filter = require('bad-words'), // Bad word filter to keep user inputted data clean
 filter = new Filter();
-filter.addWords('burn', 'apocalypse', 'bite', 'murder', 'death', 'kill', 'pain', 'horror', 'blood', 'slave'); // Custom words added to clean reponse from text generator
+filter.addWords('burn', 'apocalypse', 'bite', 'murder', 'death', 'kill', 'pain', 'horror', 'blood', 'slave', 'burning'); // Custom words added to clean reponse from text generator
 const { Configuration, OpenAIApi } = require("openai");
 const request = require('request');
 
@@ -203,7 +203,7 @@ const Contributions = {
         //Story stem paragraph populated with user inputted data and weather api data
         async function populateStemParagraph() {
 
-          prompt = `Once upon a time, ` + data.age + `-year-old ` + data.name + ` and ` + data.teddyName + ` ` + data.teddyType + ` were supposed to be asleep in their home in ` + data.country + `. 
+          prompt = `Once upon a time, ` + data.age + `-year-old ` + data.name + ` and ` + data.teddyName + ` the stuffed ` + data.teddyType + ` were supposed to be asleep in their home in ` + data.country + `. 
                 "Psst! Are you awake?" ` + data.name + ` asked ` + data.teddyName + `.
                 "No", ` + data.teddyName + ` groaned.
                 "Let's have an adventure!" ` + data.name + ` cried.
@@ -254,7 +254,7 @@ const Contributions = {
               temperature: temperature,
               max_tokens: 1000,
               top_p: 1,
-              best_of: 6,
+              best_of: 1,
               frequency_penalty: 0,
               presence_penalty: 0,
             });
@@ -284,6 +284,9 @@ const Contributions = {
         const gpt3Await = await getGpt3(stemAwait);
         console.log(story);
 
+
+
+        
 
 
         //Create contribution made up of story and story elements to be sent to MongoDB
