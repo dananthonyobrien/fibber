@@ -15,6 +15,7 @@ Do your children want a new story every night before bed? Now you can help them 
 Use the following resources to find out more about this project.
 - [GitHub README](https://github.com/dananthonyobrien/fibber/blob/development/Edgeworth/README.md)
 - [Fibber site](https://fibbergenerator.herokuapp.com/)
+- [Final Report](https://drive.google.com/drive/folders/1FRJE1gv_9lMXzTG7sXODYxSdu_NJcvNn?usp=sharing)
 - YouTube walkthrough (pending)
 
 ## Candidate Resources
